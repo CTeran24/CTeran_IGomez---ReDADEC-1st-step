@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubicación_Usuario</title>
+    <style>
+        body {
+            width:60%;
+            background-color: rgb(120, 188, 255);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            height: 100%;
+            left: 50%;
+            position: relative;
+            transform: translate(-50%);
+        }
+
+        header {
+            text-align: center;
+            padding: 10px;
+            background-color: rgb(77, 166, 255);
+        }
+
+        section {
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f2f2f2;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        ul ul {
+            display: none;
+            position: absolute;
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li:hover > ul {
+            display: block;
+        }
+        #navigation{
+            display: flex;
+            background-color: rgb(77, 166, 255);
+            height: 50px;
+            align-items: center;
+            padding-left: 2%;
+        }
+        #sendData, #navigation a {
+            border: #f2f2f2 solid 1px;
+            color: white;
+        }
+        #navigation a {
+            border: #f2f2f2 solid 1px;
+            border-radius: 15%;
+            padding: 2px 10px;
+            background-color: rgb(0, 0, 0);
+            color: white;
+        }
+        #sendData {
+            font-size: 15pt;
+            padding: 3% 15%;
+            border-radius: 20%;
+            background-color: rgb(232, 10, 10);
+            box-shadow: 0px 0px 10px 1px rgb(47, 47, 47);
+        }
+        .gap {
+            height: 10px;
+        }
+
+        .centrar{
+		    margin:auto;
+		    display:block;
+            width: 40%;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header><h1>Mensaje para ser rescatado</h1></header>
+    <div class="gap"></div>
+    <img class="centrar" src="../Logo/logo5_hor.png"/>
+    <p>Mantén la calma en medio del caos.</p>	
+	<p>Tu fuerza interior es más grande de lo que puedes imaginar.</p> 
+	<p>Estamos trabajando incansablemente para llegar a ti. La esperanza nunca se apaga.</p>
+    <p>Haz clic en el botón para enviar tu ubicación y un mensaje de rescate</p>
+
+    <button id="sendData" onclick="enviarDatos()">S O S</button>
+
+    <h1>Mensaje de Rescatistas</h1>
+
+    <!-- Agrega un cuadro de texto para mostrar el mensaje -->
+    <textarea id="mensajeBox" rows="4" cols="50" readonly></textarea>
+    
+    <div class="gap"></div>
+
+    <ul id="navigation">
+        <a href=PagPrincipal.html>Inicio</a>        
+    </ul>
+    <script>
+        function enviarDatos() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    // Obtener la latitud y longitud
+                    var latitud = position.coords.latitude;
+                    var longitud = position.coords.longitude;
+
+                    // Obtener el mensaje de rescate del usuario
+                    var mensajeRescate = 'Necesito ayuda';
+
+                    // Codificar el mensaje para incluirlo en la URL
+                    var mensajeCodificado = encodeURIComponent(mensajeRescate);
+
+                    // Crear la URL con los parámetros de ubicación y mensaje
+                    var url = 'PagPrincipal.html?lat=' + latitud + '&long=' + longitud + '&mensaje=' + mensajeCodificado;
+
+                    // Redirigir a la otra página con la ubicación y el mensaje en el cuadro de texto
+                    window.location.href = url;
+                }, function(error) {
+                    alert('Error al obtener la ubicación: ' + error.message);
+                });
+            } else {
+                alert('Geolocalización no es compatible en este navegador.');
+            }
+        }
+        
+        // Obtener el mensaje almacenado en localStorage
+        var mensaje = localStorage.getItem("mensaje");
+
+        // Mostrar el mensaje en el cuadro de texto
+        document.getElementById("mensajeBox").value = "Mensaje recibido: " + mensaje;
+
+        // Función para mostrar u ocultar el submenú
+        function toggleSubMenu(event) {
+            event.preventDefault(); // Evitar que el enlace se siga si es un enlace real
+            var submenu = event.target.nextElementSibling;
+            submenu.style.display = (submenu.style.display === 'none' || submenu.style.display === '') ? 'block' : 'none';
+        }
+    </script>
+
+</body>
+</html>

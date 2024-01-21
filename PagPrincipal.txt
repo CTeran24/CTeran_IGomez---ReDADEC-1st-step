@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red_Drones_REDADEC</title>
+    <style>
+        /* Estilos CSS pueden ir aquí */
+        body {
+            width:60%;
+            background-color: rgb(120, 188, 255);
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+            height: 100%;
+            left: 50%;
+            position: relative;
+            transform: translate(-50%);
+        }
+
+        header {
+            text-align: center;
+            padding: 10px;
+            background-color: rgb(77, 166, 255);
+        }
+
+        section {
+            margin-top: 20px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f2f2f2;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        ul ul {
+            display: none;
+            position: absolute;
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li:hover > ul {
+            display: block;
+        }
+        #navigation{
+            display: flex;
+            background-color: rgb(77, 166, 255);
+            height: 50px;
+            align-items: center;
+            padding-left: 2%;
+        }
+        #navigation a {
+            border: #f2f2f2 solid 1px;
+            border-radius: 15%;
+            padding: 2px 10px;
+            background-color: black;
+            color: white;
+        }
+        .gap {
+            height: 10px;
+        }
+
+        .centrar{
+		    margin:auto;
+		    display:block;
+            width: 40%;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Sistema de Red de Drones</h1>
+    </header>
+    <div class="gap"></div>
+    <img class="centrar" src="../Logo/logo5_hor.png"/>
+
+    <section>
+        <h2>Servicio de Rescate </h2>
+        <p>En este momento desafiante, eres un ejemplo de resistencia. Los equipos de rescate no descansarán hasta que estés a salvo.</p> 
+	<p>Tu supervivencia es nuestra prioridad absoluta.</p>
+    </section>
+
+    <section>
+        <h2>Recuerde:</h2>
+        <p>Ser paciente y mantener la calma, pronto estará a salvo y todo estará bien</p>
+        
+    </section>
+
+    <h1>Información de Ubicación</h1>
+
+    <p>Mensaje de Rescate a atender</p>
+    <div id="rescueMessage"></div>
+    <h1>Mensaje de Rescatistas</h1>
+
+    <form id="miFormulario">
+        <label for="mensaje">Mensaje:</label>
+        <input type="text" id="mensaje" required>
+        
+        <button type="button" onclick="enviarMensaje()">Enviar</button>
+    </form>
+
+    <!-- Agregar un elemento para mostrar el mensaje -->
+    <div id="mensajeMostrado"></div>
+    <div class="gap"></div>
+    <div id="navigation">
+        <ul>
+            <li><a href=PagPrincipal.html>I</a></li>
+            <li><a href=GPS_DronPrincipal.html>U</a></li>
+        </ul>
+    </div>
+    
+    
+    <script>
+        // Función para obtener los parámetros de la URL
+        function obtenerParametro(nombre) {
+            var url = new URL(window.location.href);
+            return url.searchParams.get(nombre);
+        }
+
+        // Obtener latitud, longitud y mensaje de rescate de la URL
+
+        var mensajeRescate = obtenerParametro('mensaje');
+        var latitud = obtenerParametro('lat');
+        var longitud = obtenerParametro('long');
+
+        // Mostrar la información en un cuadro de texto
+        var cuadroTexto = document.createElement('textarea');
+        cuadroTexto.rows = 5;
+        cuadroTexto.cols = 50;
+        cuadroTexto.value = 'Ubicación: Latitud ' + latitud + ', Longitud ' + longitud + '\nMensaje de Rescate: ' + decodeURIComponent(mensajeRescate);
+
+        // Agregar el cuadro de texto al cuerpo del documento
+        document.getElementById("rescueMessage").appendChild(cuadroTexto);
+
+        function enviarMensaje() {
+            // Obtener el valor del mensaje
+            var mensaje = document.getElementById("mensaje").value;
+
+            // Mostrar el mensaje en la página
+            document.getElementById("mensajeMostrado").innerHTML = "Mensaje enviado: " + mensaje;
+
+            // Opcional: Almacenar el mensaje en localStorage si es necesario
+            localStorage.setItem("mensaje", mensaje);
+        }
+    </script>
+</body>
+</html>
+
