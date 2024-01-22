@@ -1,0 +1,61 @@
+import network
+import socket
+import time
+import urequests
+
+
+def get_html(html_name):
+    with open(html_name, 'r') as file:
+        html = file.read()
+    return html
+
+
+def main():
+    # Realizamos la petición HTTP a la primera página HTML
+    response = urequests.get("http://192.168.4.1/PagPrincipal.html")
+    # Obtenemos el contenido de la respuesta HTTP
+    contenido = response.content
+    # Generamos el contenido de la segunda página HTML
+    pagina2 = get_html('GPS_DronPrincipal.html')
+    # Enviamos la segunda página HTML al servidor
+    urequests.post("http://192.168.4.1/GPS_DronPrincipal.html", data=pagina2)
+
+
+def run_code():
+    ssid = "RED_DRONES"
+    password = "FLUNA2023"
+
+    ap = network.WLAN(network.AP_IF)
+    ap.config(essid=ssid, password=password)
+    ap.active(True)
+
+    while ap.active == False:
+        pass
+
+    print("Access point active")
+    print(ap.ifconfig())
+
+    addr = socket.getaddrinfo('0.0.0.0', 80)[0][-1]
+
+    s = socket.socket()
+    s.bind(addr)
+    s.listen(1)
+
+    print('listening on', addr)
+
+       
+    
+    while True:
+        try:
+            cl, addr = s.accept()
+            request = cl.recv(1024)
+            print(request)
+            response = get_html('PagPrincipal.html')
+            response2 = get_html('GPS_DronPrincipal.html')
+            cl.send('HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n')
+            cl.send(response)
+            cl.close()
+            
+        except OSError as e:
+            cl.close()
+            print('connection closed')

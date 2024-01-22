@@ -1,0 +1,39 @@
+import network
+import socket
+import time
+import servidor
+import machine  # Importar la biblioteca machine
+
+def run_code():
+    wlan = network.WLAN(network.STA_IF)
+
+    # Configurar el pin del LED (por ejemplo, el pin 25 para el LED incorporado en el Raspberry Pi Pico)
+    led = machine.Pin(25, machine.Pin.OUT)
+
+    while True:
+        if wlan.status() != 3:
+            print('Connection lost, switching to server mode')
+            servidor.run_code()
+            break
+
+        try:
+            addr = socket.getaddrinfo("192.168.4.1", 80)[0][-1]
+            s = socket.socket()
+            s.connect(addr)
+            s.send(b"Anything")
+            ss = str(s.recv(512))
+            print(ss)
+
+            # Encender el LED si se recibió un mensaje
+            if ss:
+                led.on()  # Encender el LED
+                time.sleep(2)  # Mantener el LED encendido durante 1 segundo (puedes ajustar este tiempo)
+                led.off()  # Apagar el LED
+
+            s.close()
+            time.sleep(0.2)
+        except OSError as e:
+            print('Connection reset by peer, switching to server mode')
+            servidor.run_code()
+            break
+

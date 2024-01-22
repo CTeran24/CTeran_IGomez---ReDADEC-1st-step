@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubicación_3</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Ubicación Dron Alterno 2</h1>
+
+    <p id="demo">Haz clic en el botón para obtener la ubicación del Dron Alterno 2.</p>
+
+    <button onclick="obtenerUbicacion()">Obtener Ubicación</button>
+
+    <script>
+        function obtenerUbicacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(mostrarUbicacion);
+            } else {
+                document.getElementById("demo").innerHTML = "La geolocalización no es compatible con este navegador.";
+            }
+        }
+
+        function mostrarUbicacion(position) {
+            var latitud = position.coords.latitude;
+            var longitud = position.coords.longitude;
+            var precision = position.coords.accuracy;
+
+            document.getElementById("demo").innerHTML = "Latitud: " + latitud + "<br>Longitud: " + longitud + "<br>Precisión: " + precision + " metros.";
+        }
+    </script>
+
+</body>
+
+
+    <h2>Mi Página con Cuadro de Texto y Botón de Enviar</h1>
+
+    <form action="/ruta/del/servidor" method="post">
+        <label for="miTexto">Ingresa tu texto:</label>
+        <textarea id="miTexto" name="miTexto" rows="4" cols="50" required></textarea>
+
+        <button type="submit">Enviar</button>
+    </form>
+
+    <p>Este mensaje sera enviado hacia los drones de emergencia</p>
+
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* Estilos CSS pueden ir aquí */
+        ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            display: inline-block;
+            margin-right: 20px;
+        }
+
+        ul ul {
+            display: none;
+            position: absolute;
+            background-color: #f2f2f2;
+            padding: 10px;
+            border-radius: 0 0 5px 5px;
+            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        li:hover > ul {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+    <ul>
+        <li><a href=SigPag.html>Inicio</a></li>
+        <li><a href="#">Servicios de Ubicación de Drones</a>
+            <ul>                
+                <li><a href=GPS_DronPrincipal.html>Dron Principal</a></li>
+                <li><a href=GPS_DronAlterno1.html>Dron Alterno 1</a></li>
+            </ul>
+        </li>
+        
+    </ul>
+
+    <script>
+        // Función para mostrar u ocultar el submenú
+        function toggleSubMenu(event) {
+            event.preventDefault(); // Evitar que el enlace se siga si es un enlace real
+            var submenu = event.target.nextElementSibling;
+            submenu.style.display = (submenu.style.display === 'none' || submenu.style.display === '') ? 'block' : 'none';
+        }
+    </script>
+
+</body>
+
+</html>
+
